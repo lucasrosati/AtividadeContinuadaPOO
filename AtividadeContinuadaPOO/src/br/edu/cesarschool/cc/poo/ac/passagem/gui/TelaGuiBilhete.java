@@ -53,16 +53,6 @@ public class TelaGuiBilhete extends JFrame {
         // Limpar todos os campos da tela
     }
 
-    private String obterNumeroBilhete(ResultadoGeracaoBilhete resultado) {
-        if (resultado.getBilhete() != null) {
-            return "Número do bilhete: " + resultado.getBilhete().gerarNumero();
-        } else if (resultado.getBilheteVip() != null) {
-            return "Número do bilhete VIP: " + resultado.getBilheteVip().gerarNumero();
-        } else {
-            return null;
-        }
-    }
-
     private void gerarBilhete() {
         String cpf = cpfTextField.getText();
         String ciaAerea = (String) companhiaAereaComboBox.getSelectedItem();
@@ -76,7 +66,8 @@ public class TelaGuiBilhete extends JFrame {
             if (resultado.getMensagemErro() != null) {
                 JOptionPane.showMessageDialog(this, resultado.getMensagemErro(), "Erro ao gerar bilhete", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Bilhete gerado com sucesso!\n" + obterNumeroBilhete(resultado) +
+                String numeroBilhete = resultado.getBilhete() != null ? "Número do bilhete: " + resultado.getBilhete().getBilhete() : "Número do bilhete: (N/A)";
+                JOptionPane.showMessageDialog(this, "Bilhete gerado com sucesso!\n" + numeroBilhete +
                         "\nSaldo do cliente em pontos: " + resultado.getBilhete().getCliente().getSaldoPontos(), "Bilhete gerado", JOptionPane.INFORMATION_MESSAGE);
                 clearFields();
             }
@@ -86,7 +77,8 @@ public class TelaGuiBilhete extends JFrame {
             if (resultado.getMensagemErro() != null) {
                 JOptionPane.showMessageDialog(this, resultado.getMensagemErro(), "Erro ao gerar bilhete VIP", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Bilhete VIP gerado com sucesso!\n" + obterNumeroBilhete(resultado) +
+                String numeroBilhete = resultado.getBilheteVip() != null ? "Número do bilhete: " + resultado.getBilheteVip().getNumeroBilhete() : "Número do bilhete: (N/A)";
+                JOptionPane.showMessageDialog(this, "Bilhete VIP gerado com sucesso!\n" + numeroBilhete +
                         "\nSaldo do cliente em pontos: " + resultado.getBilheteVip().getCliente().getSaldoPontos(), "Bilhete VIP gerado", JOptionPane.INFORMATION_MESSAGE);
                 clearFields();
             }
@@ -107,3 +99,4 @@ public class TelaGuiBilhete extends JFrame {
         });
     }
 }
+// corrigir tudo
