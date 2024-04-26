@@ -11,7 +11,6 @@ public class VooMediator {
 
     private VooMediator() {
         aeroportosValidos = new HashSet<>();
-        // Inicializa a lista de aeroportos válidos
         String[] aeroportos = {"GRU", "CGH", "GIG", "SDU", "REC", "CWB", "POA", "BSB", "SSA", "FOR", "MAO",
                 "SLZ", "CNF", "BEL", "JPA", "PNZ", "CAU", "FEN", "SET", "NAT", "PVH", "BVB", "FLN", "AJU",
                 "PMW", "MCZ", "MCP", "VIX", "GYN", "CGB", "CGR", "THE", "RBR", "VCP", "RAO"};
@@ -29,6 +28,10 @@ public class VooMediator {
 
     public Voo buscar(String idVoo) {
         return vooDao.buscar(idVoo);
+    }
+
+    public Voo[] buscarTodos() {
+        return vooDao.buscarTodos();
     }
 
     public String validarCiaNumero(String companhiaAerea, int numeroVoo) {
@@ -91,7 +94,6 @@ public class VooMediator {
     }
     
     public String obterIdVoo(Voo voo) {
-        // Utiliza o método obterIdVoo() da classe Voo para calcular o ID do voo
         return voo.obterIdVoo();
     }
 }

@@ -146,7 +146,7 @@ public class BilheteMediator {
         boolean incluso = bilheteVipDao.incluir(bilheteVip);
 
         if (!incluso) {
-            return new ResultadoGeracaoBilhete(null, null, "Bilhete ja existente");
+            return new ResultadoGeracaoBilhete(null, null, "Bilhete vip ja existente");
         }
 
         String mensagemAlteradaCliente = clienteMediator.alterar(cliente);

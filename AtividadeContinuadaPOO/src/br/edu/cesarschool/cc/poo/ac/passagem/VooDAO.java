@@ -1,5 +1,7 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
+import java.io.Serializable;
+
 import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 
 public class VooDAO {
@@ -11,6 +13,21 @@ public class VooDAO {
 
     public Voo buscar(String idVoo) {
         return (Voo) cadastro.buscar(idVoo);
+    }
+
+    public Voo[] buscarTodos() {
+        Serializable[] res = cadastro.buscarTodos();
+        if (res == null) {
+            return null;
+        } else {
+            Voo[] voos = new Voo[res.length];
+            int i = 0;
+            for (Serializable reg : res) {
+                voos[i] = (Voo) reg;
+                i++;
+            }
+            return voos;
+        }
     }
 
     public boolean incluir(Voo voo) {
