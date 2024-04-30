@@ -1,6 +1,8 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import br.edu.cesarschool.cc.poo.ac.cliente.Cliente;
 import br.edu.cesarschool.cc.poo.ac.cliente.ClienteMediator;
@@ -13,12 +15,12 @@ public class BilheteMediator {
     private ClienteMediator clienteMediator;
 
     private static BilheteMediator instancia;
-   
+
     private BilheteMediator() {
-    	this.vooMediator = VooMediator.obterInstancia();
-    	this.clienteMediator = ClienteMediator.obterInstancia();
-    	this.bilheteDao = new BilheteDAO();
-    	this.bilheteVipDao = new BilheteVipDAO();
+        this.vooMediator = VooMediator.obterInstancia();
+        this.clienteMediator = ClienteMediator.obterInstancia();
+        this.bilheteDao = new BilheteDAO();
+        this.bilheteVipDao = new BilheteVipDAO();
     }
 
     public static BilheteMediator obterInstancia() {
@@ -27,41 +29,55 @@ public class BilheteMediator {
         }
         return instancia;
     }
-
-   
+    
     public Bilhete buscar(String numeroBilhete) {
         return bilheteDao.buscar(numeroBilhete);
     }
 
     public BilheteVip buscarVip(String numeroBilhete) {
-        return (BilheteVip) bilheteVipDao.buscar(numeroBilhete);
+        return bilheteVipDao.buscar(numeroBilhete);
     }
 
     public String validar(String cpf, String ciaAerea, int numeroVoo, double preco, double pagamentoEmPontos, LocalDateTime dataHora) {
-        
         if (!ValidadorCPF.isCpfValido(cpf)) {
             return "CPF errado";
-        }       
+        }
         String mensagemCiaNumero = vooMediator.validarCiaNumero(ciaAerea, numeroVoo);
         if (mensagemCiaNumero != null) {
             return mensagemCiaNumero;
         }
-        
         if (preco <= 0) {
             return "Preco errado";
         }
-        
         if (pagamentoEmPontos < 0) {
             return "Pagamento pontos errado";
         }
-       
         if (preco < pagamentoEmPontos) {
             return "Preco menor que pagamento em pontos";
         }
-      
         LocalDateTime horaAtualMais1h = LocalDateTime.now().plusHours(1);
         if (dataHora.isBefore(horaAtualMais1h)) {
             return "data hora invalida";
+        }
+
+        Voo vooEncontrado = vooMediator.buscar(ciaAerea + numeroVoo);
+        if (vooEncontrado == null) {
+            return "Voo nao encontrado";
+        }
+
+        // Verifica se o dia da semana está entre os dias disponíveis do voo
+        if (vooEncontrado.getDiasDaSemana() != null && vooEncontrado.getDiasDaSemana().length > 0) {
+            DayOfWeek dayOfWeek = dataHora.getDayOfWeek();
+            boolean diaValido = Arrays.stream(vooEncontrado.getDiasDaSemana())
+                                      .anyMatch(dia -> dia.getCodigo() == dayOfWeek.getValue());
+            if (!diaValido) {
+                return "Voo nao disponivel na data";
+            }
+        }
+
+        // Verifica se a hora e minuto são iguais às do voo
+        if (vooEncontrado.getHora() != null && (vooEncontrado.getHora().getHour() != dataHora.getHour() || vooEncontrado.getHora().getMinute() != dataHora.getMinute())) {
+            return "Hora diferente da especificada no voo";
         }
 
         return null;

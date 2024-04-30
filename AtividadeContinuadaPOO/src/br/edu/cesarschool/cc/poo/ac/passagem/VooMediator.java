@@ -1,12 +1,13 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
+import br.edu.cesarschool.cc.poo.ac.utils.DiaDaSemana;
 import br.edu.cesarschool.cc.poo.ac.utils.StringUtils;
 import java.util.HashSet;
 import java.util.Set;
 
 public class VooMediator {
     private static VooMediator instancia;
-    private VooDAO vooDao = new VooDAO();
+    private VooDAO vooDao = new VooDAO(); 
     private final Set<String> aeroportosValidos;
 
     private VooMediator() {
@@ -30,20 +31,6 @@ public class VooMediator {
         return vooDao.buscar(idVoo);
     }
 
-    public Voo[] buscarTodos() {
-        return vooDao.buscarTodos();
-    }
-
-    public String validarCiaNumero(String companhiaAerea, int numeroVoo) {
-        if (StringUtils.isVaziaOuNula(companhiaAerea) || companhiaAerea.length() != 2) {
-            return "CIA aerea errada";
-        }
-        if (numeroVoo <= 0 || numeroVoo < 1000 || numeroVoo > 9999) {
-            return "Numero voo errado";
-        }
-        return null;
-    }
-
     public String validar(Voo voo) {
         if (StringUtils.isVaziaOuNula(voo.getAeroportoOrigem())) {
             return "Aeroporto origem errado";
@@ -63,6 +50,31 @@ public class VooMediator {
         String erroCiaNumero = validarCiaNumero(voo.getCompanhiaAerea(), voo.getNumeroVoo());
         if (erroCiaNumero != null) {
             return erroCiaNumero;
+        }
+        if (voo.getDiasDaSemana() == null || voo.getDiasDaSemana().length == 0) {
+            return "Dias da semana nao informados";
+        }
+        Set<DiaDaSemana> diasSet = new HashSet<>();
+        for (DiaDaSemana dia : voo.getDiasDaSemana()) {
+            if (!diasSet.add(dia)) {
+                return "Dia da semana repetido";
+            }
+        }
+        if (voo.getHora() == null) {
+            return "Hora nao informada";
+        }
+        if (voo.getHora().getSecond() != 0 || voo.getHora().getNano() != 0) {
+            return "Hora invalida";
+        }
+        return null;
+    }
+
+    public String validarCiaNumero(String companhiaAerea, int numeroVoo) {
+        if (StringUtils.isVaziaOuNula(companhiaAerea) || companhiaAerea.length() != 2) {
+            return "CIA aerea errada";
+        }
+        if (numeroVoo <= 0 || numeroVoo < 1000 || numeroVoo > 9999) {
+            return "Numero voo errado";
         }
         return null;
     }
@@ -92,7 +104,7 @@ public class VooMediator {
         boolean sucesso = vooDao.excluir(idVoo);
         return sucesso ? null : "Voo inexistente";
     }
-    
+
     public String obterIdVoo(Voo voo) {
         return voo.obterIdVoo();
     }

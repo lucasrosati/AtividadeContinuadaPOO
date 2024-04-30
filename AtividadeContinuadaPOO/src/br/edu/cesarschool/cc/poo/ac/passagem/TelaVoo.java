@@ -1,7 +1,11 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
+import br.edu.cesarschool.cc.poo.ac.utils.DiaDaSemana;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TelaVoo {
@@ -14,34 +18,39 @@ public class TelaVoo {
     private VooMediator vooMediator = VooMediator.obterInstancia();
 
     public void inicializaTelasCadastroVoo() {
-        while(true) {
-            String id = ID_DESCONHECIDO;            
+        while (true) {
             imprimeMenuPrincipal();
             int opcao = ENTRADA.nextInt();
-            if (opcao == 1) {                
-                processaInclusao();
-            } else if (opcao == 2) {
-                id = processaBusca();
-                if (!id.equals(ID_DESCONHECIDO)) {
-                    processaAlteracao(id);
-                } 
-            } else if (opcao == 3) {
-                id = processaBusca();
-                if (!id.equals(ID_DESCONHECIDO)) {
-                    processaExclusao(id);
-                }           
-            } else if (opcao == 4) {
-                processaBusca();
-            } else if (opcao == 5) {
-                System.out.println("Saindo do cadastro de voos");
-                System.exit(0);
-            } else {
-                System.out.println("Opção inválida!!");
+            switch (opcao) {
+                case 1:
+                    processaInclusao();
+                    break;
+                case 2:
+                    String id = processaBusca();
+                    if (!id.equals(ID_DESCONHECIDO)) {
+                        processaAlteracao(id);
+                    }
+                    break;
+                case 3:
+                    id = processaBusca();
+                    if (!id.equals(ID_DESCONHECIDO)) {
+                        processaExclusao(id);
+                    }
+                    break;
+                case 4:
+                    processaBusca();
+                    break;
+                case 5:
+                    System.out.println("Saindo do cadastro de voos");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida!!");
             }
-        } 
+        }
     }
-    
-    private void imprimeMenuPrincipal() {        
+
+    private void imprimeMenuPrincipal() {
         System.out.println("1- Incluir");
         System.out.println("2- Alterar");
         System.out.println("3- Excluir");
@@ -49,27 +58,27 @@ public class TelaVoo {
         System.out.println("5- Sair");
         System.out.print("Digite a opção: ");
     }
-        
+
     private void processaInclusao() {
         Voo voo = capturaVoo();
         String retorno = vooMediator.incluir(voo);
-        if (retorno == null) { 
+        if (retorno == null) {
             System.out.println("Voo incluído com sucesso!");
         } else {
-            System.out.println(retorno);            
+            System.out.println(retorno);
         }
     }
-    
+
     private void processaAlteracao(String id) {
         Voo voo = capturaVoo();
         String retorno = vooMediator.alterar(voo);
-        if (retorno == null) { 
+        if (retorno == null) {
             System.out.println("Voo alterado com sucesso!");
         } else {
-            System.out.println(retorno);        
+            System.out.println(retorno);
         }
     }
-    
+
     private String processaBusca() {
         System.out.print(DIGITE_O_ID);
         String id = ENTRADA.next();
@@ -81,10 +90,12 @@ public class TelaVoo {
             System.out.println("ID: " + id);
             System.out.println("Origem: " + voo.getAeroportoOrigem());
             System.out.println("Destino: " + voo.getAeroportoDestino());
+            System.out.println("Dias da semana: " + formatarDiasDaSemana(voo.getDiasDaSemana()));
+            System.out.println("Hora: " + voo.getHora().toString());
             return id;
         }
     }
-    
+
     private void processaExclusao(String id) {
         String retorno = vooMediator.excluir(id);
         if (retorno == null) {
@@ -93,7 +104,7 @@ public class TelaVoo {
             System.out.println(retorno);
         }
     }
-    
+
     private Voo capturaVoo() {
         System.out.print("Digite a origem: ");
         String origem = lerString();
@@ -103,13 +114,42 @@ public class TelaVoo {
         String companhia = lerString();
         System.out.print("Digite o número do voo: ");
         int numeroVoo = ENTRADA.nextInt();
-        
-        return new Voo(origem, destino, companhia, numeroVoo);
+
+        DiaDaSemana[] diasDaSemana = capturarDiasDaSemana();
+        LocalTime hora = capturarHora();
+
+        return new Voo(origem, destino, companhia, numeroVoo, diasDaSemana, hora);
+    }
+
+    private DiaDaSemana[] capturarDiasDaSemana() {
+        System.out.println("Digite os dias da semana (números de 1 a 7, separados por espaço):");
+        String[] diasInput = lerString().split(" ");
+        List<DiaDaSemana> dias = new ArrayList<>();
+        for (String dia : diasInput) {
+            dias.add(DiaDaSemana.getDiaDaSemana(Integer.parseInt(dia)));
+        }
+        return dias.toArray(new DiaDaSemana[0]);
+    }
+
+    private LocalTime capturarHora() {
+        System.out.print("Digite a hora (HH MM): ");
+        int hora = ENTRADA.nextInt();
+        int minuto = ENTRADA.nextInt();
+        return LocalTime.of(hora, minuto, 0, 0);
+    }
+
+    private String formatarDiasDaSemana(DiaDaSemana[] dias) {
+        StringBuilder sb = new StringBuilder();
+        for (DiaDaSemana dia : dias) {
+            if (sb.length() > 0) sb.append(", ");
+            sb.append(dia.getNome());
+        }
+        return sb.toString();
     }
 
     private String lerString() {
-        try {            
-            return ENTRADA_STR.readLine();            
+        try {
+            return ENTRADA_STR.readLine();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
