@@ -108,4 +108,8 @@ public class VooMediator {
     public String obterIdVoo(Voo voo) {
         return voo.obterIdVoo();
     }
+    
+    public Voo[] buscarTodos() {
+        return vooDao.buscarTodos();
+    }
 }
