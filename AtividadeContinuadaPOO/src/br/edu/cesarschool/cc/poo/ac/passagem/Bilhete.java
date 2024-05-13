@@ -1,7 +1,7 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
-import br.edu.cesarschool.cc.poo.ac.cliente.Cliente;
 import br.edu.cesarschool.cc.poo.ac.utils.Registro;
+import br.edu.cesarschool.cc.poo.ac.cliente.Cliente;
 import java.time.LocalDateTime;
 
 public class Bilhete extends Registro {
@@ -53,5 +53,10 @@ public class Bilhete extends Registro {
 
     public String gerarNumero() {
         return this.cliente.getCpf() + this.voo.getNumeroVoo() + this.dataHora.getYear() + this.dataHora.getMonthValue() + this.dataHora.getDayOfMonth();
+    }
+
+    @Override
+    public String getIdUnico() {
+        return gerarNumero();
     }
 }

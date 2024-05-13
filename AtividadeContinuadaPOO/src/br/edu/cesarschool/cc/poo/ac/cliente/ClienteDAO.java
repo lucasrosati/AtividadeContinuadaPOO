@@ -1,8 +1,15 @@
 package br.edu.cesarschool.cc.poo.ac.cliente;
 
+import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
 import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 
-public class ClienteDAO {
+public class ClienteDAO extends SuperDAO {
+
+    @Override
+    protected Class<?> obterTipo() {
+        return Cliente.class;
+    }
+    
     private CadastroObjetos cadastro = new CadastroObjetos(Cliente.class);
 
     private String obterIdUnico(Cliente cliente) {
@@ -13,13 +20,6 @@ public class ClienteDAO {
         return (Cliente) cadastro.buscar(cpf);
     }
 
-    /*
-     * Objetos são incluídos em arquivos físicos, gravados
-     * no diretório Cliente (o nome da classe de entidade), que fica
-     * no mesmo nível do diretório src, dentro do projeto JAVA.
-     * Cada objeto é incluído em um arquivo diferente, cujo nome
-     * é o id único do objeto em questão, e tem a extensão .dat.
-     */
     public boolean incluir(Cliente cliente) {
         String idUnico = obterIdUnico(cliente);
         Cliente cli = buscar(idUnico);

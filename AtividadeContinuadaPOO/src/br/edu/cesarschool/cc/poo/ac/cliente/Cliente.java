@@ -1,9 +1,10 @@
 package br.edu.cesarschool.cc.poo.ac.cliente;
 
 import br.edu.cesarschool.cc.poo.ac.utils.Registro;
+
 import java.io.Serializable;
 
-    public class Cliente extends Registro implements Serializable {
+public class Cliente extends Registro implements Serializable {
     private static final long serialVersionUID = 1L;
     private String cpf;
     private String nome;
@@ -18,7 +19,7 @@ import java.io.Serializable;
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     public void setCPF(String cpf) {
         this.cpf = cpf;
     }
@@ -34,20 +35,25 @@ import java.io.Serializable;
     public double getSaldoPontos() {
         return saldoPontos;
     }
-    
+
     public void setSaldoPontos(double saldoPontos) {
         this.saldoPontos = saldoPontos;
     }
 
     public void creditarPontos(double valor) {
-        if(valor > 0) {
+        if (valor > 0) {
             this.saldoPontos += valor;
         }
     }
 
     public void debitarPontos(double valor) {
-        if(valor > 0 && this.saldoPontos >= valor) {
+        if (valor > 0 && this.saldoPontos >= valor) {
             this.saldoPontos -= valor;
         }
+    }
+
+    @Override
+    public String getIdUnico() {
+        return cpf;
     }
 }

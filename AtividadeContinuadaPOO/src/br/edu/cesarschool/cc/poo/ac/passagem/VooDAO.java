@@ -2,10 +2,15 @@ package br.edu.cesarschool.cc.poo.ac.passagem;
 
 import java.io.Serializable;
 
+import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
 import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 
-public class VooDAO {
-    private CadastroObjetos cadastro = new CadastroObjetos(Voo.class);
+public class VooDAO extends SuperDAO {
+
+    @Override
+    protected Class<?> obterTipo() {
+        return Voo.class;
+    }    private CadastroObjetos cadastro = new CadastroObjetos(Voo.class);
 
     private String obterIdUnico(Voo voo) {
         return voo.getCompanhiaAerea() + voo.getNumeroVoo();

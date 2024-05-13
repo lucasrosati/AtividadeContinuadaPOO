@@ -12,6 +12,10 @@ public class Registro implements Serializable {
 	public LocalDateTime getDhUltimaAtualizacao() {
 		return dhUltimaAtualizacao;
 	}
+	
+	public String getIdUnico() {
+        return "";
+    }
 	public void setDhUltimaAtualizacao(LocalDateTime dhUltimaAtualizacao) {
 		this.dhUltimaAtualizacao = dhUltimaAtualizacao;
 	}

@@ -1,8 +1,16 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
+import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
 import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 
-public class BilheteVipDAO {
+public class BilheteVipDAO extends SuperDAO {
+
+    @Override
+    protected Class<?> obterTipo() {
+        return BilheteVip.class;
+    }
+    
+
     private CadastroObjetos cadastro = new CadastroObjetos(BilheteVip.class);
 
     private String obterIdUnico(BilheteVip bilheteVip) {
