@@ -1,51 +1,37 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
 import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
-import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
+import br.edu.cesarschool.cc.poo.ac.utils.DAOGenerico;
 
-public class BilheteDAO extends SuperDAO {
+public class BilheteDAO extends SuperDAO<Bilhete> {
+    private DAOGenerico<Bilhete> daoGenerico;
+
+    public BilheteDAO() {
+        this.daoGenerico = new DAOGenerico<>(Bilhete.class);
+    }
 
     @Override
-    protected Class<?> obterTipo() {
+    protected Class<Bilhete> obterTipo() {
         return Bilhete.class;
-    }
-    
-    private CadastroObjetos cadastro = new CadastroObjetos(Bilhete.class);
-
-    private String obterIdUnico(Bilhete bilhete) {
-        return bilhete.gerarNumero();
-    }
-
-    public Bilhete buscar(String numeroBilhete) {
-        return (Bilhete) cadastro.buscar(numeroBilhete);
     }
 
     public boolean incluir(Bilhete bilhete) {
-        String idUnico = obterIdUnico(bilhete);
-        Bilhete bilheteEncontrado = buscar(idUnico);
-        if (bilheteEncontrado == null) {
-            cadastro.incluir(bilhete, idUnico);
-            return true;
-        }
-        return false;
+        return daoGenerico.incluir(bilhete);
     }
 
     public boolean alterar(Bilhete bilhete) {
-        String idUnico = obterIdUnico(bilhete);
-        Bilhete bilheteEncontrado = buscar(idUnico);
-        if (bilheteEncontrado != null) {
-            cadastro.alterar(bilhete, idUnico);
-            return true;
-        }
-        return false;
+        return daoGenerico.alterar(bilhete);
+    }
+
+    public Bilhete buscar(String numeroBilhete) {
+        return daoGenerico.buscar(numeroBilhete);
+    }
+
+    public Bilhete[] buscarTodos() {
+        return daoGenerico.buscarTodos();
     }
 
     public boolean excluir(String numeroBilhete) {
-        Bilhete bilhete = buscar(numeroBilhete);
-        if (bilhete != null) {
-            cadastro.excluir(numeroBilhete);
-            return true;
-        }
-        return false;
+        return daoGenerico.excluir(numeroBilhete);
     }
 }

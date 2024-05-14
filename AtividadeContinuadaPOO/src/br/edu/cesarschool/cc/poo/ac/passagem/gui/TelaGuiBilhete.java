@@ -12,7 +12,6 @@ import java.text.ParseException;
 import javax.swing.text.MaskFormatter;
 
 import br.edu.cesarschool.cc.poo.ac.passagem.*;
-import br.edu.cesarschool.cc.poo.ac.cliente.ClienteMediator;
 
 public class TelaGuiBilhete {
 

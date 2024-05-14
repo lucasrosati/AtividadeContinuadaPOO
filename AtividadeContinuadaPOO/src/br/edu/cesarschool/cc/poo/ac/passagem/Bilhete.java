@@ -10,6 +10,7 @@ public class Bilhete extends Registro {
     private double preco;
     private double pagamentoEmPontos;
     private LocalDateTime dataHora;
+    private LocalDateTime dhInclusao; // Data e hora da inclusão do bilhete no sistema
 
     public Bilhete(Cliente cliente, Voo voo, double preco, double pagamentoEmPontos, LocalDateTime dataHora) {
         this.cliente = cliente;
@@ -17,6 +18,7 @@ public class Bilhete extends Registro {
         this.preco = preco;
         this.pagamentoEmPontos = pagamentoEmPontos;
         this.dataHora = dataHora;
+        this.dhInclusao = LocalDateTime.now(); // Inicializando a data e hora de inclusão no momento da criação do objeto
     }
 
     public Cliente getCliente() {
@@ -37,6 +39,10 @@ public class Bilhete extends Registro {
 
     public LocalDateTime getDataHora() {
         return dataHora;
+    }
+
+    public LocalDateTime getDhInclusao() { // Getter para a data e hora de inclusão
+        return dhInclusao;
     }
 
     public void setPagamentoEmPontos(double pagamentoEmPontos) {

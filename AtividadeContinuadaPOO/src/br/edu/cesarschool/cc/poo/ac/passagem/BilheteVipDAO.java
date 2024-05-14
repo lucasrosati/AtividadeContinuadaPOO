@@ -1,52 +1,37 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
 import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
-import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
+import br.edu.cesarschool.cc.poo.ac.utils.DAOGenerico;
 
-public class BilheteVipDAO extends SuperDAO {
+public class BilheteVipDAO extends SuperDAO<BilheteVip> {
+    private DAOGenerico<BilheteVip> daoGenerico;
+
+    public BilheteVipDAO() {
+        this.daoGenerico = new DAOGenerico<>(BilheteVip.class);
+    }
 
     @Override
-    protected Class<?> obterTipo() {
+    protected Class<BilheteVip> obterTipo() {
         return BilheteVip.class;
-    }
-    
-
-    private CadastroObjetos cadastro = new CadastroObjetos(BilheteVip.class);
-
-    private String obterIdUnico(BilheteVip bilheteVip) {
-        return bilheteVip.gerarNumero();
-    }
-
-    public BilheteVip buscar(String numeroBilhete) {
-        return (BilheteVip) cadastro.buscar(numeroBilhete);
     }
 
     public boolean incluir(BilheteVip bilheteVip) {
-        String idUnico = obterIdUnico(bilheteVip);
-        BilheteVip bilheteVipEncontrado = buscar(idUnico);
-        if (bilheteVipEncontrado == null) {
-            cadastro.incluir(bilheteVip, idUnico);
-            return true;
-        }
-        return false;
+        return daoGenerico.incluir(bilheteVip);
     }
 
     public boolean alterar(BilheteVip bilheteVip) {
-        String idUnico = obterIdUnico(bilheteVip);
-        BilheteVip bilheteVipEncontrado = buscar(idUnico);
-        if (bilheteVipEncontrado != null) {
-            cadastro.alterar(bilheteVip, idUnico);
-            return true;
-        }
-        return false;
+        return daoGenerico.alterar(bilheteVip);
+    }
+
+    public BilheteVip buscar(String numeroBilhete) {
+        return daoGenerico.buscar(numeroBilhete);
+    }
+
+    public BilheteVip[] buscarTodos() {
+        return daoGenerico.buscarTodos();
     }
 
     public boolean excluir(String numeroBilhete) {
-        BilheteVip bilheteVip = buscar(numeroBilhete);
-        if (bilheteVip != null) {
-            cadastro.excluir(numeroBilhete);
-            return true;
-        }
-        return false;
+        return daoGenerico.excluir(numeroBilhete);
     }
 }

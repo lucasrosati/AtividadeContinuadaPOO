@@ -15,6 +15,12 @@ public class FormaPagamento extends Registro {
         this.valorMaximo = valorMaximo;
     }
 
+    @Override
+    public String getIdUnico() {
+        return String.valueOf(codigo);
+    }
+
+
     public int getCodigo() {
         return codigo;
     }

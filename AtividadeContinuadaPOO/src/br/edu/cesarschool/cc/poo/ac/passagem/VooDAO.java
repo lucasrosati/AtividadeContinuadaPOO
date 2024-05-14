@@ -1,66 +1,37 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
-import java.io.Serializable;
-
 import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
-import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
+import br.edu.cesarschool.cc.poo.ac.utils.DAOGenerico;
 
-public class VooDAO extends SuperDAO {
+public class VooDAO extends SuperDAO<Voo> {
+    private DAOGenerico<Voo> daoGenerico;
+
+    public VooDAO() {
+        this.daoGenerico = new DAOGenerico<>(Voo.class);
+    }
 
     @Override
-    protected Class<?> obterTipo() {
+    protected Class<Voo> obterTipo() {
         return Voo.class;
-    }    private CadastroObjetos cadastro = new CadastroObjetos(Voo.class);
-
-    private String obterIdUnico(Voo voo) {
-        return voo.getCompanhiaAerea() + voo.getNumeroVoo();
-    }
-
-    public Voo buscar(String idVoo) {
-        return (Voo) cadastro.buscar(idVoo);
-    }
-
-    public Voo[] buscarTodos() {
-        Serializable[] res = cadastro.buscarTodos();
-        if (res == null) {
-            return null;
-        } else {
-            Voo[] voos = new Voo[res.length];
-            int i = 0;
-            for (Serializable reg : res) {
-                voos[i] = (Voo) reg;
-                i++;
-            }
-            return voos;
-        }
     }
 
     public boolean incluir(Voo voo) {
-        String idUnico = obterIdUnico(voo);
-        Voo vooEncontrado = buscar(idUnico);
-        if (vooEncontrado == null) {
-            cadastro.incluir(voo, idUnico);
-            return true;
-        }
-        return false;
+        return daoGenerico.incluir(voo);
     }
 
     public boolean alterar(Voo voo) {
-        String idUnico = obterIdUnico(voo);
-        Voo vooEncontrado = buscar(idUnico);
-        if (vooEncontrado != null) {
-            cadastro.alterar(voo, idUnico);
-            return true;
-        }
-        return false;
+        return daoGenerico.alterar(voo);
+    }
+
+    public Voo buscar(String idVoo) {
+        return daoGenerico.buscar(idVoo);
+    }
+
+    public Voo[] buscarTodos() {
+        return daoGenerico.buscarTodos();
     }
 
     public boolean excluir(String idVoo) {
-        Voo voo = buscar(idVoo);
-        if (voo != null) {
-            cadastro.excluir(idVoo);
-            return true;
-        }
-        return false;
+        return daoGenerico.excluir(idVoo);
     }
 }
