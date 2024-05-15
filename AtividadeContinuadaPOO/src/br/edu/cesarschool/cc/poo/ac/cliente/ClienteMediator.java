@@ -5,10 +5,9 @@ import br.edu.cesarschool.cc.poo.ac.utils.ValidadorCPF;
 
 public class ClienteMediator {
     private static ClienteMediator instancia;
-    private ClienteDAO clienteDao = new ClienteDAO();  // Supondo a existência de ClienteDAO
-
+    private ClienteDAO clienteDao = new ClienteDAO();
     private ClienteMediator() {
-        // Construtor privado conforme Singleton
+      
     }
 
     public static ClienteMediator obterInstancia() {
