@@ -11,7 +11,7 @@ public class VooDAO extends SuperDAO<Voo> {
     }
 
     @Override
-    protected Class<Voo> obterTipo() {
+    public Class<Voo> obterTipo() {
         return Voo.class;
     }
 
@@ -23,15 +23,15 @@ public class VooDAO extends SuperDAO<Voo> {
         return daoGenerico.alterar(voo);
     }
 
-    public Voo buscar(String idVoo) {
-        return daoGenerico.buscar(idVoo);
+    public Voo buscar(String numeroVoo) {
+        return daoGenerico.buscar(numeroVoo);
     }
 
     public Voo[] buscarTodos() {
         return daoGenerico.buscarTodos();
     }
 
-    public boolean excluir(String idVoo) {
-        return daoGenerico.excluir(idVoo);
+    public boolean excluir(String numeroVoo) {
+        return daoGenerico.excluir(numeroVoo);
     }
 }

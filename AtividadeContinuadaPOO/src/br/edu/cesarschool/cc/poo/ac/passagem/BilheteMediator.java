@@ -3,6 +3,7 @@ package br.edu.cesarschool.cc.poo.ac.passagem;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Comparator;
 
 import br.edu.cesarschool.cc.poo.ac.cliente.Cliente;
 import br.edu.cesarschool.cc.poo.ac.cliente.ClienteMediator;
@@ -171,5 +172,19 @@ public class BilheteMediator {
         }
 
         return new ResultadoGeracaoBilhete(null, bilheteVip, null);
+    }
+
+    public Bilhete[] obterBilhetesPorPreco() {
+        Bilhete[] bilhetes = bilheteDao.buscarTodos();
+        Arrays.sort(bilhetes, Comparator.comparingDouble(Bilhete::getPreco));
+        return bilhetes;
+    }
+
+    public Bilhete[] obterBilhetesPorDataHora(double precoMin) {
+        Bilhete[] bilhetes = bilheteDao.buscarTodos();
+        return Arrays.stream(bilhetes)
+                     .filter(b -> b.getPreco() >= precoMin)
+                     .sorted((b1, b2) -> b2.getDataHora().compareTo(b1.getDataHora()))
+                     .toArray(Bilhete[]::new);
     }
 }

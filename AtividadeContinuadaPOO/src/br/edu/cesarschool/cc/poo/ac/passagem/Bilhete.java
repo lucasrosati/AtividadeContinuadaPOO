@@ -3,6 +3,7 @@ package br.edu.cesarschool.cc.poo.ac.passagem;
 import br.edu.cesarschool.cc.poo.ac.utils.Registro;
 import br.edu.cesarschool.cc.poo.ac.cliente.Cliente;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Bilhete extends Registro {
     private Cliente cliente;
@@ -10,7 +11,7 @@ public class Bilhete extends Registro {
     private double preco;
     private double pagamentoEmPontos;
     private LocalDateTime dataHora;
-    private LocalDateTime dhInclusao; // Data e hora da inclusão do bilhete no sistema
+    private LocalDateTime dhInclusao;
 
     public Bilhete(Cliente cliente, Voo voo, double preco, double pagamentoEmPontos, LocalDateTime dataHora) {
         this.cliente = cliente;
@@ -18,7 +19,7 @@ public class Bilhete extends Registro {
         this.preco = preco;
         this.pagamentoEmPontos = pagamentoEmPontos;
         this.dataHora = dataHora;
-        this.dhInclusao = LocalDateTime.now(); // Inicializando a data e hora de inclusão no momento da criação do objeto
+        this.dhInclusao = LocalDateTime.now();
     }
 
     public Cliente getCliente() {
@@ -41,7 +42,7 @@ public class Bilhete extends Registro {
         return dataHora;
     }
 
-    public LocalDateTime getDhInclusao() { // Getter para a data e hora de inclusão
+    public LocalDateTime getDhInclusao() {
         return dhInclusao;
     }
 
@@ -64,5 +65,15 @@ public class Bilhete extends Registro {
     @Override
     public String getIdUnico() {
         return gerarNumero();
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return String.format("%.2f , %s , %s, %s",
+                             preco,
+                             voo.getAeroportoOrigem(),
+                             voo.getAeroportoDestino(),
+                             dataHora.format(formatter));
     }
 }

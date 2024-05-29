@@ -11,11 +11,10 @@ public class ClienteDAO extends SuperDAO<Cliente> {
     }
 
     @Override
-    protected Class<Cliente> obterTipo() {
+    public Class<Cliente> obterTipo() {
         return Cliente.class;
     }
 
-    // Delegar chamadas para daoGenerico
     public boolean incluir(Cliente cliente) {
         return daoGenerico.incluir(cliente);
     }

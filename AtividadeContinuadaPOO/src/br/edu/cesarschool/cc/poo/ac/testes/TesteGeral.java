@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Assertions;
 
 import br.edu.cesarschool.cc.poo.ac.cliente.Cliente;
+import br.edu.cesarschool.cc.poo.ac.passagem.Bilhete;
 import br.edu.cesarschool.cc.poo.ac.passagem.BilheteMediator;
 import br.edu.cesarschool.cc.poo.ac.passagem.ResultadoGeracaoBilhete;
 import br.edu.cesarschool.cc.poo.ac.passagem.Voo;
@@ -14,8 +15,8 @@ import br.edu.cesarschool.cc.poo.ac.utils.DiaDaSemana;
 import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 
 public class TesteGeral {
-	private static final String IND_CUR_DIR = ".";
-	private static final String FILE_SEP = File.separator;
+	protected static final String IND_CUR_DIR = ".";
+	protected static final String FILE_SEP = File.separator;
 	protected static final String DIR_CLIENTE = IND_CUR_DIR + FILE_SEP + "Cliente";
 	protected static final String DIR_VOO = IND_CUR_DIR + FILE_SEP + "Voo";
 	protected static final String DIR_BILHETE = IND_CUR_DIR + FILE_SEP + "Bilhete";
@@ -32,6 +33,7 @@ public class TesteGeral {
 	protected CadastroObjetos cadastroVoo = new CadastroObjetos(Voo.class);
 	protected BilheteMediator biMed = BilheteMediator.obterInstancia();
 	protected CadastroObjetos cadastroCli = new CadastroObjetos(Cliente.class);
+	protected CadastroObjetos cadastroBil = new CadastroObjetos(Bilhete.class);
 
 
 	protected void excluirCadastros() {

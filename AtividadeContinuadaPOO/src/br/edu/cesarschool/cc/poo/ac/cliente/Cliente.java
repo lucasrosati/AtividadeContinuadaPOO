@@ -1,10 +1,11 @@
 package br.edu.cesarschool.cc.poo.ac.cliente;
 
 import br.edu.cesarschool.cc.poo.ac.utils.Registro;
+import br.edu.cesarschool.cc.poo.ac.utils.ordenacao.Comparavel;
 
 import java.io.Serializable;
 
-public class Cliente extends Registro implements Serializable {
+public class Cliente extends Registro implements Serializable, Comparavel {
     private static final long serialVersionUID = 1L;
     private String cpf;
     private String nome;
@@ -55,5 +56,19 @@ public class Cliente extends Registro implements Serializable {
     @Override
     public String getIdUnico() {
         return cpf;
+    }
+
+    @Override
+    public int comparar(Object o1) {
+        if (o1 instanceof Cliente) {
+            Cliente outro = (Cliente) o1;
+            return this.nome.compareTo(outro.nome);
+        }
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " , " + cpf + " , " + saldoPontos;
     }
 }

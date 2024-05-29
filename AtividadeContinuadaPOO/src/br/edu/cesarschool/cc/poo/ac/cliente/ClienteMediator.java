@@ -2,12 +2,13 @@ package br.edu.cesarschool.cc.poo.ac.cliente;
 
 import br.edu.cesarschool.cc.poo.ac.utils.StringUtils;
 import br.edu.cesarschool.cc.poo.ac.utils.ValidadorCPF;
+import java.util.Arrays;
 
 public class ClienteMediator {
     private static ClienteMediator instancia;
     private ClienteDAO clienteDao = new ClienteDAO();
+
     private ClienteMediator() {
-      
     }
 
     public static ClienteMediator obterInstancia() {
@@ -64,5 +65,11 @@ public class ClienteMediator {
             return "Cliente inexistente";
         }
         return null;
+    }
+
+    public Cliente[] obterClientesPorNome() {
+        Cliente[] clientes = clienteDao.buscarTodos();
+        Arrays.sort(clientes, (c1, c2) -> c1.getNome().compareToIgnoreCase(c2.getNome()));
+        return clientes;
     }
 }
