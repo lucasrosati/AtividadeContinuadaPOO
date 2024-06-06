@@ -1,14 +1,8 @@
 package br.edu.cesarschool.cc.poo.ac.passagem;
 
-import br.edu.cesarschool.cc.poo.ac.utils.DAOGenerico;
 import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
 
 public class BilheteDAO extends SuperDAO<Bilhete> {
-    private DAOGenerico<Bilhete> daoGenerico;
-
-    public BilheteDAO() {
-        this.daoGenerico = new DAOGenerico<>(Bilhete.class);
-    }
 
     @Override
     public Class<Bilhete> obterTipo() {

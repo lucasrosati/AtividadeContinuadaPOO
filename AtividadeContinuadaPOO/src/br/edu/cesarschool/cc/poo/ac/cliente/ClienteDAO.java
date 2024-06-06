@@ -1,14 +1,8 @@
 package br.edu.cesarschool.cc.poo.ac.cliente;
 
 import br.edu.cesarschool.cc.poo.ac.utils.SuperDAO;
-import br.edu.cesarschool.cc.poo.ac.utils.DAOGenerico;
 
 public class ClienteDAO extends SuperDAO<Cliente> {
-    private DAOGenerico<Cliente> daoGenerico;
-
-    public ClienteDAO() {
-        this.daoGenerico = new DAOGenerico<>(Cliente.class);
-    }
 
     @Override
     public Class<Cliente> obterTipo() {

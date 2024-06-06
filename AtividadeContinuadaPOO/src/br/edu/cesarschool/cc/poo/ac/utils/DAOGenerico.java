@@ -1,7 +1,8 @@
 package br.edu.cesarschool.cc.poo.ac.utils;
 
 import java.io.Serializable;
-import br.edu.cesarschool.next.oo.persistenciaobjetos.*;
+import java.lang.reflect.Array;
+import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 
 public class DAOGenerico<T extends Registro> {
     private CadastroObjetos cadastro;
@@ -29,7 +30,7 @@ public class DAOGenerico<T extends Registro> {
         }
         return false;
     }
-    
+
     public T buscar(String id) {
         Serializable resultado = cadastro.buscar(id);
         if (tipo.isInstance(resultado)) {
@@ -38,16 +39,20 @@ public class DAOGenerico<T extends Registro> {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public T[] buscarTodos() {
         Serializable[] resultados = cadastro.buscarTodos();
-        T[] array = (T[]) java.lang.reflect.Array.newInstance(tipo, resultados.length);
+        @SuppressWarnings("unchecked")
+        T[] array = (T[]) Array.newInstance(tipo, resultados.length);
         for (int i = 0; i < resultados.length; i++) {
-            array[i] = tipo.cast(resultados[i]);
+            if (tipo.isInstance(resultados[i])) {
+                array[i] = tipo.cast(resultados[i]);
+            } else {
+                // Handle the case where the cast is not valid, e.g., logging or throwing an exception
+                throw new IllegalStateException("Unexpected instance type in resultados array");
+            }
         }
         return array;
     }
-
 
     public boolean excluir(String id) {
         if (buscar(id) != null) {

@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import javax.swing.*;
-import java.util.HashSet;
 import java.text.ParseException;
 import javax.swing.text.MaskFormatter;
+import java.util.HashSet;
 
-import br.edu.cesarschool.cc.poo.ac.cliente.ClienteMediator;
 import br.edu.cesarschool.cc.poo.ac.cliente.Cliente;
+import br.edu.cesarschool.cc.poo.ac.cliente.ClienteMediator;
 import br.edu.cesarschool.cc.poo.ac.passagem.BilheteMediator;
 import br.edu.cesarschool.cc.poo.ac.passagem.ResultadoGeracaoBilhete;
 import br.edu.cesarschool.cc.poo.ac.passagem.Voo;
@@ -53,7 +53,7 @@ public class TelaGuiBilhete {
 
     public TelaGuiBilhete() {
         initialize();
-        preencherCompanhiasEAereas();
+        preencherCompanhiasAereas();
         preencherNumerosVoos();
         limparCampos(); // Inicializa a tela no estado desejado
     }
@@ -205,10 +205,10 @@ public class TelaGuiBilhete {
         });
     }
 
-    private void preencherCompanhiasEAereas() {
+    private void preencherCompanhiasAereas() {
         Voo[] voos = vooMediator.buscarTodos();
+        HashSet<String> companhias = new HashSet<>();
         if (voos != null) {
-            HashSet<String> companhias = new HashSet<>();
             for (Voo voo : voos) {
                 companhias.add(voo.getCompanhiaAerea());
             }
@@ -216,18 +216,24 @@ public class TelaGuiBilhete {
                 comboBoxCompanhia.addItem(cia);
             }
         }
+        if (!companhias.isEmpty()) {
+            comboBoxCompanhia.setSelectedIndex(0);
+        }
     }
 
     private void preencherNumerosVoos() {
         Voo[] voos = vooMediator.buscarTodos();
+        HashSet<String> numeros = new HashSet<>();
         if (voos != null) {
-            HashSet<String> numeros = new HashSet<>();
             for (Voo voo : voos) {
                 numeros.add(String.valueOf(voo.getNumeroVoo()));
             }
             for (String num : numeros) {
                 comboBoxVoo.addItem(num);
             }
+        }
+        if (!numeros.isEmpty()) {
+            comboBoxVoo.setSelectedIndex(0);
         }
     }
 
@@ -291,8 +297,8 @@ public class TelaGuiBilhete {
     private void limparCampos() {
         textFieldCpf.setText("");
         textFieldNome.setText("");
-        comboBoxCompanhia.setSelectedIndex(0);
-        comboBoxVoo.setSelectedIndex(0);
+        comboBoxCompanhia.setSelectedIndex(comboBoxCompanhia.getItemCount() > 0 ? 0 : -1);
+        comboBoxVoo.setSelectedIndex(comboBoxVoo.getItemCount() > 0 ? 0 : -1);
         textFieldPreco.setText("");
         textFieldPagamentoEmPontos.setText("");
         textFieldDataeHora.setText("");
